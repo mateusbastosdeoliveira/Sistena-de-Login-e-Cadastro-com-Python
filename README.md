@@ -1,4 +1,7 @@
 # Sistema-de-Login-com-Python
 
-Sistema de Login com Python, está em andamento
-Logo mais subirei com interface
+Sistema de Login com Python, com interface
+Logo mais adiconarei comunicação com Banco de Dados (SSMS)
+Para realizar logina:
+nome = root
+senha = root
