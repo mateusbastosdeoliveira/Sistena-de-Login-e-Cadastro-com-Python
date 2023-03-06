@@ -6,6 +6,8 @@ janela.geometry('500x500')
 janela.title("login")
 janela.resizable(height=False, width=False)
 
+
+
 def validar():
     nome = entry_nome.get()
     senha = entry_senha.get()
@@ -17,6 +19,13 @@ def validar():
         return_msg["text"] = "Acesso concedido"
         entry_nome.delete(0, END)
         entry_senha.delete(0,END)
+        janela_user = Tk()
+        janela_user.title="Usuário"
+        janela_user.geometry("500x500")
+        janela_user.resizable(height=False,width=False)
+        label_user = Label(janela_user,text=f"Olá, {nome}")
+        label_user.pack()
+        janela_user.mainloop()
 
     elif nome =="" or senha == "":
         label_return_msg["text"] = "Nome ou senha não podem ser vázios"
