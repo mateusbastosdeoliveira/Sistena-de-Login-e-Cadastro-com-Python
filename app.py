@@ -61,6 +61,9 @@ entry_senha.place( y=35)
 label_button= Button(janela, text="Acessar", width=14, relief="solid", bg="black", fg="white", command=validar)
 label_button.pack(pady=14)
 
+label_novo_user = Button(janela,text="Novo usuário", width=14, relief="solid", bg="black", fg="white")
+label_novo_user.pack()
+
 label_return_msg = Label(janela, text="", font="Arial 12")
 label_return_msg.pack()
 
