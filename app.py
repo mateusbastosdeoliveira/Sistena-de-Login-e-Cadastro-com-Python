@@ -1,4 +1,5 @@
 from tkinter import *
+from novo_user import criar_novo_usuario
 
 
 janela = Tk()
@@ -7,6 +8,7 @@ janela.title("login")
 janela.resizable(height=False, width=False)
 
 
+    
 
 def validar():
     nome = entry_nome.get()
@@ -15,17 +17,22 @@ def validar():
     return_msg = label_return_msg
 
     if nome == "root" and senha == "root":
+        
         return_msg["fg"] = "green"
         return_msg["text"] = "Acesso concedido"
         entry_nome.delete(0, END)
         entry_senha.delete(0,END)
-        janela_user = Tk()
-        janela_user.title="Usuário"
+
+        janela_user =  Tk()
+        janela_user.title("Usuário")
         janela_user.geometry("500x500")
         janela_user.resizable(height=False,width=False)
-        label_user = Label(janela_user,text=f"Olá, {nome}")
-        label_user.pack()
+        label_user = Label(janela_user,text=f"Olá, {nome}", font="Arial 15")
+        label_user.pack(pady=15)
+        janela.destroy()
+        
         janela_user.mainloop()
+        
 
     elif nome =="" or senha == "":
         label_return_msg["text"] = "Nome ou senha não podem ser vázios"
@@ -35,6 +42,10 @@ def validar():
         label_return_msg["text"] = "Nome ou senha incorreto"
         label_return_msg["fg"] = "red"  
 
+
+
+
+    
 
 
 label_title=Label(text="Login", font="Arial 25")
@@ -61,10 +72,10 @@ entry_senha.place( y=35)
 label_button= Button(janela, text="Acessar", width=14, relief="solid", bg="black", fg="white", command=validar)
 label_button.pack(pady=14)
 
-label_novo_user = Button(janela,text="Novo usuário", width=14, relief="solid", bg="black", fg="white")
+label_novo_user = Button(janela,text="Novo usuário", width=14, relief="solid", bg="black", fg="white", command=criar_novo_usuario)
 label_novo_user.pack()
 
 label_return_msg = Label(janela, text="", font="Arial 12")
-label_return_msg.pack()
+label_return_msg.pack(pady=25)
 
 janela = mainloop()
