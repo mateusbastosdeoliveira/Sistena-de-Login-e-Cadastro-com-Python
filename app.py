@@ -2,6 +2,7 @@ from tkinter import *
 from novo_user import criar_novo_usuario
 
 
+
 janela = Tk()
 janela.geometry('500x500')
 janela.title("login")
@@ -28,7 +29,7 @@ def validar():
         janela_user.geometry("500x500")
         janela_user.resizable(height=False,width=False)
         label_user = Label(janela_user,text=f"Olá, {nome}", font="Arial 15")
-        label_user.pack(pady=15)
+        label_user.pack()
         janela.destroy()
         
         janela_user.mainloop()
@@ -41,10 +42,6 @@ def validar():
     elif nome !="root" or senha !="root":
         label_return_msg["text"] = "Nome ou senha incorreto"
         label_return_msg["fg"] = "red"  
-
-
-
-
     
 
 
