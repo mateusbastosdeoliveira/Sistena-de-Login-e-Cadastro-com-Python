@@ -1,5 +1,7 @@
 from tkinter import *
 from novo_user import criar_novo_usuario
+import sqlite3 as lite
+
 
 
 
@@ -7,11 +9,12 @@ janela = Tk()
 janela.geometry('500x500')
 janela.title("login")
 janela.resizable(height=False, width=False)
-
+ 
 
     
 
 def validar():
+
     nome = entry_nome.get()
     senha = entry_senha.get()
 
@@ -24,12 +27,45 @@ def validar():
         entry_nome.delete(0, END)
         entry_senha.delete(0,END)
 
+        def realizar_consulta():
+            conexao = lite.connect("users.db")
+            with conexao:
+                cursor = conexao.cursor()
+                result_entry = entry_resultado.get()
+                
+                if result_entry == "":
+                    label_msg_resultado["text"] = "Campo de busca vázio"
+                    label_resultado["text"] = ""
+                    label_msg_resultado["fg"] = "red"
+                
+                elif result_entry != "":
+                    dados = f"select nome  from usuario where id= {result_entry} "
+                    resultado =  cursor.execute(dados)
+                    label_msg_resultado["text"] = ""                
+                    label_resultado["text"] = resultado.fetchall()
+
+                
+
         janela_user =  Tk()
         janela_user.title("Usuário")
         janela_user.geometry("500x500")
         janela_user.resizable(height=False,width=False)
         label_user = Label(janela_user,text=f"Olá, {nome}", font="Arial 15")
-        label_user.pack()
+        label_user.pack(pady=5)
+
+        entry_resultado = Entry(janela_user, width=20, relief="solid")
+        entry_resultado.pack(pady=5)
+
+        button_consultar_users = Button(janela_user, text="Buscar usuário por ID", fg="white", bg="black", command=realizar_consulta)
+        button_consultar_users.pack(pady=10)
+ 
+        label_resultado = Label(janela_user,  text="", font="Arial 15")
+        label_resultado.pack()
+         
+        label_msg_resultado = Label(janela_user, text="", font="Arial 15")
+        label_msg_resultado.pack()
+        
+
         janela.destroy()
         
         janela_user.mainloop()
@@ -42,6 +78,10 @@ def validar():
     elif nome !="root" or senha !="root":
         label_return_msg["text"] = "Nome ou senha incorreto"
         label_return_msg["fg"] = "red"  
+
+
+
+
     
 
 
