@@ -26,18 +26,16 @@ def criar_novo_usuario():
             
 
             if nome == "" or data_nasc == "" or cpf == "" or endereco == "":
-                 label_return_msg["text"] = "Campo vázio"
+                 label_return_msg["text"] = "Campo(s) vázio(s)"
                  label_return_msg["fg"] = "red" 
 
             elif quant < 5:
                 label_return_msg["text"] = "Nome deve conter mais que 5 caracteres"
 
-            elif quant_cpf < 11:
+            elif quant_cpf != 11:
                 label_return_msg["text"] = "Quantidade de CPF inválido, deve ter 11 digitos"
                 label_return_msg["fg"] = "red" 
-            elif quant_cpf > 11:
-                label_return_msg["text"] = "Quantidade de CPF inválido, deve ter 11 digitos"
-                label_return_msg["fg"] = "red" 
+              
                 
             elif nome != "" or data_nasc != "" or cpf != "" or endereco != "":
 
@@ -63,30 +61,30 @@ def criar_novo_usuario():
         janela_novo_user.destroy()
 
     label_nome = Label(janela_novo_user,text="Nome : ",  font="Arial 13")
-    label_nome.pack()
+    label_nome.pack(pady=5)
     entry_nome = Entry(janela_novo_user, relief="solid", width=25)
-    entry_nome.pack()
+    entry_nome.pack(pady=2)
 
     label_data = Label(janela_novo_user,text="Data de Nascimento : ",  font="Arial 13")
-    label_data.pack()
+    label_data.pack(pady=5)
     entry_data = Entry(janela_novo_user, relief="solid", width=25)
-    entry_data.pack()
+    entry_data.pack(pady=2)
     
     label_cpf = Label(janela_novo_user,text="CPF : ",  font="Arial 13")
-    label_cpf.pack()
+    label_cpf.pack(pady=5)
     entry_cpf = Entry(janela_novo_user, relief="solid", width=25)
-    entry_cpf.pack()
+    entry_cpf.pack(pady=2)
 
     label_endereco = Label(janela_novo_user,text="Endereço : ",  font="Arial 13")
-    label_endereco.pack()
+    label_endereco.pack(pady=5)
     entry_endereco = Entry(janela_novo_user, relief="solid", width=25)
-    entry_endereco.pack()
+    entry_endereco.pack(pady=2)
 
     label_button= Button(janela_novo_user, text="Cadastrar", width=14, relief="solid", bg="black", fg="white", command=Cadastrar)
-    label_button.pack(pady=14)
+    label_button.pack(pady=10)
 
     label_button= Button(janela_novo_user, text="Voltar", width=14, relief="solid", bg="black", fg="white", command=Voltar)
-    label_button.pack(pady=14)
+    label_button.pack(pady=2)
 
     label_return_msg = Label(janela_novo_user, text="", font="Arial 12")
     label_return_msg.pack(pady=25)
