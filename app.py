@@ -34,16 +34,25 @@ def validar():
                 result_entry = entry_resultado.get()
                 
                 if result_entry == "":
+                    label_resultado["text"] = ""
                     label_msg_resultado["text"] = "Campo de busca vázio"
                     label_resultado["text"] = ""
                     label_msg_resultado["fg"] = "red"
                 
                 elif result_entry != "":
-                    dados = f"select nome  from usuario where id= {result_entry} "
-                    resultado =  cursor.execute(dados)
-                    label_msg_resultado["text"] = ""                
-                    label_resultado["text"] = resultado.fetchall()
+                    if len(result_entry) != 11:
+                            label_resultado["text"] = ""
+                            label_msg_resultado["text"] = "Quantidade digitado inválido"
+                            label_msg_resultado["fg"] = "red"
 
+                    elif len(result_entry) == 11:
+                            
+                            dados = f"select nome  from usuario where cpf= {result_entry} "
+                            resultado =  cursor.execute(dados)
+                            label_msg_resultado["text"] = ""
+                            label_resultado["text"] = resultado.fetchall()
+                     
+                    
                 
 
         janela_user =  Tk()
@@ -56,7 +65,7 @@ def validar():
         entry_resultado = Entry(janela_user, width=20, relief="solid")
         entry_resultado.pack(pady=5)
 
-        button_consultar_users = Button(janela_user, text="Buscar usuário por ID", fg="white", bg="black", command=realizar_consulta)
+        button_consultar_users = Button(janela_user, text="Buscar usuário por CPF", fg="white", bg="black", command=realizar_consulta)
         button_consultar_users.pack(pady=10)
  
         label_resultado = Label(janela_user,  text="", font="Arial 15")
