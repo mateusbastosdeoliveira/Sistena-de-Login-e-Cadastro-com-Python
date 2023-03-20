@@ -47,10 +47,11 @@ def validar():
 
                     elif len(result_entry) == 11:
                             
-                            dados = f"select nome  from usuario where cpf= {result_entry} "
+                            dados = f"select nome  from usuario where cpf= {result_entry} limit 1"
                             resultado =  cursor.execute(dados)
                             label_msg_resultado["text"] = ""
-                            label_resultado["text"] = resultado.fetchall()
+                            for re in resultado.fetchone():
+                                 label_resultado["text"] = re
                      
                     
                 
