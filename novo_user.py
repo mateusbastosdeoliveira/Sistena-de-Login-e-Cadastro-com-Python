@@ -1,129 +1,92 @@
 from tkinter import *
-from novo_user import criar_novo_usuario
 import sqlite3 as lite
 
+def criar_novo_usuario():
+    janela_novo_user = Tk()
+    janela_novo_user.title("Cadastro")
+    janela_novo_user.geometry("500x500")
+    janela_novo_user.resizable(height=False, width=False)
+    label_title_novo_user=Label(janela_novo_user,text="Cadastrar novo usuário", font="Arial 25")
+    label_title_novo_user.pack(pady=25)
+    label_return_novo_user = Label(janela_novo_user,font="Arial 12" , text="")
+    try:
+        con = lite.connect("users.db")
+        label_return_novo_user["text"]= "Conectado ao Banco de Dados"
+        label_return_novo_user["fg"] = "green"
+        label_return_novo_user.pack()
+        
+
+        def Cadastrar():
+            nome =entry_nome.get()
+            data_nasc = entry_data.get()
+            cpf = entry_cpf.get()
+            endereco = entry_endereco.get()
+            quant = len(nome)
+            quant_cpf  = len(cpf)
+            
+
+            if nome == "" or data_nasc == "" or cpf == "" or endereco == "":
+                 label_return_msg["text"] = "Campo(s) vázio(s)"
+                 label_return_msg["fg"] = "red" 
+
+            elif quant < 5:
+                label_return_msg["text"] = "Nome deve conter mais que 5 caracteres"
+
+            elif quant_cpf != 11:
+                label_return_msg["text"] = "Quantidade de CPF inválido, deve ter 11 digitos"
+                label_return_msg["fg"] = "red" 
+              
+                
+            elif nome != "" or data_nasc != "" or cpf != "" or endereco != "":
+
+                with con:
+                    cursor = con.cursor()
+                    cursor.execute("insert into usuario(nome, data_nascimento, cpf, endereco) values( ?, ?, ?,?)", (nome, data_nasc, cpf, endereco))
 
 
+                label_return_msg["text"] = "Usuário cadastrado"
+                label_return_msg["fg"] = "green"
+                entry_nome.delete(0, END)
+                entry_data.delete(0, END)
+                entry_cpf.delete(0, END)
+                entry_endereco.delete(0, END)             
 
-janela = Tk()
-janela.geometry('500x500')
-janela.title("login")
-janela.resizable(height=False, width=False)
- 
 
+    except:
+        label_return_novo_user["text"] = "Erro ao conectar no Banco de Dados"
+        label_return_novo_user["fg"] = "red"
+        label_return_novo_user.pack()
+
+    def Voltar():
+        janela_novo_user.destroy()
+
+    label_nome = Label(janela_novo_user,text="Nome : ",  font="Arial 13")
+    label_nome.pack(pady=5)
+    entry_nome = Entry(janela_novo_user, relief="solid", width=25)
+    entry_nome.pack(pady=2)
+
+    label_data = Label(janela_novo_user,text="Data de Nascimento : ",  font="Arial 13")
+    label_data.pack(pady=5)
+    entry_data = Entry(janela_novo_user, relief="solid", width=25)
+    entry_data.pack(pady=2)
     
+    label_cpf = Label(janela_novo_user,text="CPF : ",  font="Arial 13")
+    label_cpf.pack(pady=5)
+    entry_cpf = Entry(janela_novo_user, relief="solid", width=25)
+    entry_cpf.pack(pady=2)
 
-def validar():
+    label_endereco = Label(janela_novo_user,text="Endereço : ",  font="Arial 13")
+    label_endereco.pack(pady=5)
+    entry_endereco = Entry(janela_novo_user, relief="solid", width=25)
+    entry_endereco.pack(pady=2)
 
-    nome = entry_nome.get()
-    senha = entry_senha.get()
+    label_button= Button(janela_novo_user, text="Cadastrar", width=14, relief="solid", bg="black", fg="white", command=Cadastrar)
+    label_button.pack(pady=10)
 
-    return_msg = label_return_msg
+    label_button= Button(janela_novo_user, text="Voltar", width=14, relief="solid", bg="black", fg="white", command=Voltar)
+    label_button.pack(pady=2)
 
-    if nome == "root" and senha == "root":
+    label_return_msg = Label(janela_novo_user, text="", font="Arial 12")
+    label_return_msg.pack(pady=25)
         
-        return_msg["fg"] = "green"
-        return_msg["text"] = "Acesso concedido"
-        entry_nome.delete(0, END)
-        entry_senha.delete(0,END)
-
-        def realizar_consulta():
-            conexao = lite.connect("users.db")
-            cursor = conexao.cursor()
-            result_entry = entry_resultado.get()
-                
-            if result_entry == "":
-                    label_resultado["text"] = ""
-                    label_msg_resultado["text"] = "Campo de busca vázio"
-                    label_resultado["text"] = ""
-                    label_msg_resultado["fg"] = "red"
-                
-            elif result_entry != "":
-                if len(result_entry) != 11:
-                 label_resultado["text"] = ""
-                 label_msg_resultado["text"] = "Quantidade digitado inválido"
-                 label_msg_resultado["fg"] = "red"
-
-                elif len(result_entry) == 11:                       
-                        cursor.execute(f"select nome  from usuario where cpf= {result_entry} ")
-                        resultado =  cursor.fetchall()
-                        if resultado:
-                            label_msg_resultado["text"] = resultado
-                        else:
-                            label_msg_resultado["text"] ="CPF não localizado"
-                            
-                     
-                    
-                
-
-        janela_user =  Tk()
-        janela_user.title("Usuário")
-        janela_user.geometry("500x500")
-        janela_user.resizable(height=False,width=False)
-        label_user = Label(janela_user,text=f"Olá, {nome}", font="Arial 15")
-        label_user.pack(pady=5)
-
-        entry_resultado = Entry(janela_user, width=20, relief="solid")
-        entry_resultado.pack(pady=5)
-
-        button_consultar_users = Button(janela_user, text="Buscar usuário por CPF", fg="white", bg="black", command=realizar_consulta)
-        button_consultar_users.pack(pady=10)
- 
-        label_resultado = Label(janela_user,  text="", font="Arial 15")
-        label_resultado.pack()
-         
-        label_msg_resultado = Label(janela_user, text="", font="Arial 15")
-        label_msg_resultado.pack()
-        
-
-        janela.destroy()
-        
-        janela_user.mainloop()
-        
-
-    elif nome =="" or senha == "":
-        label_return_msg["text"] = "Nome ou senha não podem ser vázios"
-        label_return_msg["fg"] = "orange"
-
-    elif nome !="root" or senha !="root":
-        label_return_msg["text"] = "Nome ou senha incorreto"
-        label_return_msg["fg"] = "red"  
-
-
-
-
-    
-
-
-label_title=Label(text="Login", font="Arial 25")
-label_title.pack(pady=25)
-
-frame_nome = Frame(janela, width=170, height=80)
-frame_nome.pack(pady=15)
-
-frames_senha = Frame(janela,  width=170 , height=80)
-frames_senha.pack()
-
-label_nome = Label(frame_nome, text="Nome : ",  font="Arial 13")
-label_nome.place( y=10)
-
-entry_nome = Entry(frame_nome, relief="solid", width=25)
-entry_nome.place( y=35)
-
-label_senha = Label(frames_senha, text="Senha : ",  font="Arial 13")
-label_senha.place( y=10)
-
-entry_senha = Entry(frames_senha, relief="solid", width=25, show="*")
-entry_senha.place( y=35)
-
-label_button= Button(janela, text="Acessar", width=14, relief="solid", bg="black", fg="white", command=validar)
-label_button.pack(pady=14)
-
-label_novo_user = Button(janela,text="Novo usuário", width=14, relief="solid", bg="black", fg="white", command=criar_novo_usuario)
-label_novo_user.pack()
-
-label_return_msg = Label(janela, text="", font="Arial 12")
-label_return_msg.pack(pady=25)
-
-janela = mainloop()
-  
+    janela_novo_user= mainloop()
