@@ -29,29 +29,29 @@ def validar():
 
         def realizar_consulta():
             conexao = lite.connect("users.db")
-            with conexao:
-                cursor = conexao.cursor()
-                result_entry = entry_resultado.get()
+            cursor = conexao.cursor()
+            result_entry = entry_resultado.get()
                 
-                if result_entry == "":
+            if result_entry == "":
                     label_resultado["text"] = ""
                     label_msg_resultado["text"] = "Campo de busca vázio"
                     label_resultado["text"] = ""
                     label_msg_resultado["fg"] = "red"
                 
-                elif result_entry != "":
-                    if len(result_entry) != 11:
-                            label_resultado["text"] = ""
-                            label_msg_resultado["text"] = "Quantidade digitado inválido"
-                            label_msg_resultado["fg"] = "red"
+            elif result_entry != "":
+                if len(result_entry) != 11:
+                 label_resultado["text"] = ""
+                 label_msg_resultado["text"] = "Quantidade digitado inválido"
+                 label_msg_resultado["fg"] = "red"
 
-                    elif len(result_entry) == 11:
+                elif len(result_entry) == 11:                       
+                        cursor.execute(f"select nome  from usuario where cpf= {result_entry} ")
+                        resultado =  cursor.fetchone()
+                        if resultado:
+                            label_msg_resultado["text"] = resultado[0]
+                        else:
+                            label_msg_resultado["text"] ="CPF não localizado"
                             
-                            dados = f"select nome  from usuario where cpf= {result_entry} limit 1"
-                            resultado =  cursor.execute(dados)
-                            label_msg_resultado["text"] = ""
-                            for re in resultado.fetchone():
-                                 label_resultado["text"] = re
                      
                     
                 
