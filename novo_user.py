@@ -46,6 +46,7 @@ def criar_novo_usuario():
                 existencia = cursor.fetchone() 
 
                 if existencia:
+                    label_return_msg["fg"] = "red"
                     label_return_msg["text"] = "CPF já existe"
 
                 else:
