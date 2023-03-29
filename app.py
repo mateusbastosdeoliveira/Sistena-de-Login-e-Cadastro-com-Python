@@ -51,6 +51,7 @@ def validar():
                             label_msg_resultado["text"] = resultado[0]
                         else:
                             label_msg_resultado["text"] ="CPF não localizado"
+                            label_msg_resultado["fg"] = "red"
                             
                      
                     
