@@ -23,6 +23,8 @@ def criar_novo_usuario():
             endereco = entry_endereco.get()
             quant = len(nome)
             quant_cpf  = len(cpf)
+            conexao = lite.connect("users.db")
+            cursor = conexao.cursor()
             
 
             if nome == "" or data_nasc == "" or cpf == "" or endereco == "":
@@ -37,19 +39,28 @@ def criar_novo_usuario():
                 label_return_msg["fg"] = "red" 
               
                 
-            elif nome != "" or data_nasc != "" or cpf != "" or endereco != "":
+            elif nome != "" and data_nasc != "" and cpf != "" and endereco != "":
+                conexao = lite.connect("users.db")
+                cursor = conexao.cursor()
+                cursor.execute(f"select cpf from usuario where cpf = {entry_cpf.get()}")
+                existencia = cursor.fetchone() 
 
-                with con:
-                    cursor = con.cursor()
-                    cursor.execute("insert into usuario(nome, data_nascimento, cpf, endereco) values( ?, ?, ?,?)", (nome, data_nasc, cpf, endereco))
+                if existencia:
+                    label_return_msg["text"] = "CPF já existe"
 
+                else:
 
-                label_return_msg["text"] = "Usuário cadastrado"
-                label_return_msg["fg"] = "green"
-                entry_nome.delete(0, END)
-                entry_data.delete(0, END)
-                entry_cpf.delete(0, END)
-                entry_endereco.delete(0, END)             
+                    with con:
+                        cursor = con.cursor()
+                        cursor.execute("insert into usuario(nome, data_nascimento, cpf, endereco) values( ?, ?, ?,?)", (nome, data_nasc, cpf, endereco))
+            
+
+                    label_return_msg["text"] = "Usuário cadastrado"
+                    label_return_msg["fg"] = "green"
+                    entry_nome.delete(0, END)
+                    entry_data.delete(0, END)
+                    entry_cpf.delete(0, END)
+                    entry_endereco.delete(0, END)             
 
 
     except:
