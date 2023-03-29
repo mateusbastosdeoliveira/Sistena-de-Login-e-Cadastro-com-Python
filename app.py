@@ -48,6 +48,7 @@ def validar():
                         cursor.execute(f"select nome  from usuario where cpf= {result_entry} ")
                         resultado =  cursor.fetchone()
                         if resultado:
+                            label_msg_resultado["fg"] = "green"
                             label_msg_resultado["text"] = resultado[0]
                         else:
                             label_msg_resultado["text"] ="CPF não localizado"
